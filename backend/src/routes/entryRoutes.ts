@@ -5,6 +5,7 @@ import {
   createEntrySchema,
   updateEntrySchema,
   paginationSchema,
+  searchSchema,
 } from "../validationSchemas/entrySchemas";
 
 const router = Router();
@@ -12,7 +13,7 @@ const router = Router();
 router.post("/", validate(createEntrySchema), entryController.createEntry);
 router.get(
   "/",
-  validate(paginationSchema, "query"),
+  validate(searchSchema, "query"),
   entryController.getEntries
 );
 router.get("/:id", entryController.getEntryById);

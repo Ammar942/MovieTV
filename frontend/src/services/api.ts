@@ -16,11 +16,35 @@ const apiClient = axios.create({
 
 export const getEntries = async (
   page: number,
-  limit: number
+  limit: number,
+  filters?: {
+    search?: string;
+    type?: string;
+    director?: string;
+    releaseYear?: number;
+  }
 ): Promise<ApiResponse<Entry>> => {
   try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+    
+    if (filters?.search) {
+      params.append('search', filters.search);
+    }
+    if (filters?.type) {
+      params.append('type', filters.type);
+    }
+    if (filters?.director) {
+      params.append('director', filters.director);
+    }
+    if (filters?.releaseYear) {
+      params.append('releaseYear', filters.releaseYear.toString());
+    }
+    
     const response = await apiClient.get<ApiResponse<Entry>>(
-      `/entries?page=${page}&limit=${limit}`
+      `/entries?${params.toString()}`
     );
     return response.data;
   } catch (error) {
