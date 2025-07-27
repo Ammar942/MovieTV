@@ -7,8 +7,8 @@ export const createEntrySchema = z.object({
     .string()
     .min(1, "Title is required")
     .max(255, "Title cannot exceed 255 characters"),
-  type: z.enum(["Movie", "TV Show"], {
-    message: 'Type must be "Movie" or "TV Show"',
+  type: z.enum(["Movie", "TV_Show"], {
+    message: 'Type must be "Movie" or "TV_Show"',
   }),
   director: z
     .string()

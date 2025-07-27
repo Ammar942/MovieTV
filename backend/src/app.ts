@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import entryRoutes from "./routes/entryRoutes";
-import { notFoundHandler, errorHandler } from "./middlewares/errorHandler";
+import authRoutes from "./routes/authRoutes";
+import { errorHandler, notFoundHandler } from "./utils/errorHandler";
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/entries", entryRoutes);
+app.use("/api/auth", authRoutes);
 
 // Error Handling Middleware (must be after routes)
 app.use(notFoundHandler);
