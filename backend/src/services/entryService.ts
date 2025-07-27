@@ -8,6 +8,7 @@ type UpdateEntryData = Partial<Omit<Entry, "id" | "createdAt" | "updatedAt">>; /
 
 export const createEntry = async (data: CreateEntryData): Promise<Entry> => {
   try {
+    console.log("Data received in createEntry:", data); // Log the received data
     return await prisma.entry.create({
       data: {
         ...data,
@@ -15,6 +16,7 @@ export const createEntry = async (data: CreateEntryData): Promise<Entry> => {
       },
     });
   } catch (error) {
+    console.error("Error in createEntry:", error); // Log the real error
     throw new ApiError("Failed to create entry", 500);
   }
 };
@@ -35,6 +37,7 @@ export const getEntries = async (
     ]);
     return { entries, total };
   } catch (error) {
+    console.error("Prisma error in getEntries:", error);
     throw new ApiError("Failed to retrieve entries", 500);
   }
 };

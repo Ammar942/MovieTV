@@ -34,8 +34,8 @@ export const getEntries = async (
   next: NextFunction
 ) => {
   try {
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 10;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
     const { entries, total } = await entryService.getEntries(page, limit);
     res.status(200).json({ entries, total, page, limit });
   } catch (error) {
