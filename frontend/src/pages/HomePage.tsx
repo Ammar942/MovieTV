@@ -6,6 +6,7 @@ import EntryTable from "../components/EntryTable";
 import EntryForm from "../components/EntryForm";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 import LoadingSpinner from "../components/LoadingSpinner";
+import SearchFiltersComponent, { type SearchFilters } from "../components/SearchFilters";
 import type { Entry, EntryFormData } from "../types";
 import {
   getEntries,
@@ -36,6 +37,13 @@ const HomePage: React.FC = () => {
     "success" | "error" | "info" | "warning"
   >("success");
 
+  const [filters, setFilters] = useState<SearchFilters>({
+    search: "",
+    type: "",
+    director: "",
+    releaseYear: "",
+  });
+
   // Move showSnackbar above fetchEntries
   const showSnackbar = (
     message: string,
@@ -49,13 +57,36 @@ const HomePage: React.FC = () => {
   const isLoadingRef = useRef(false);
 
   const fetchEntries = useCallback(
-    async (pageNum: number, append: boolean = false) => {
+    async (pageNum: number, append: boolean = false, searchFilters?: SearchFilters) => {
       if (isLoadingRef.current) return;
       isLoadingRef.current = true;
       setIsLoading(true);
       try {
         console.log(`Fetching page: ${pageNum}, limit: ${ITEMS_PER_PAGE}`);
-        const response = await getEntries(pageNum, ITEMS_PER_PAGE);
+        
+        // Prepare filters for API call
+        const apiFilters: any = {};
+        const currentFilters = searchFilters || filters;
+        
+        if (currentFilters.search) {
+          apiFilters.search = currentFilters.search;
+        }
+        if (currentFilters.type) {
+          apiFilters.type = currentFilters.type;
+        }
+        if (currentFilters.director) {
+          apiFilters.director = currentFilters.director;
+        }
+        if (currentFilters.releaseYear) {
+          apiFilters.releaseYear = parseInt(currentFilters.releaseYear);
+        }
+        
+        const response = await getEntries(
+          pageNum, 
+          ITEMS_PER_PAGE,
+          Object.keys(apiFilters).length > 0 ? apiFilters : undefined
+        );
+        
         console.log(
           `Received ${response.entries.length} entries (total: ${response.total})`
         );
@@ -73,7 +104,7 @@ const HomePage: React.FC = () => {
         isLoadingRef.current = false;
       }
     },
-    [showSnackbar]
+    [showSnackbar, filters]
   );
 
   useEffect(() => {
@@ -91,6 +122,29 @@ const HomePage: React.FC = () => {
       });
     }
   }, [isLoading, hasMore, fetchEntries]);
+
+  const handleSearch = () => {
+    setPage(1);
+    setHasMore(true);
+    fetchEntries(1, false, filters);
+  };
+
+  const handleFiltersChange = (newFilters: SearchFilters) => {
+    setFilters(newFilters);
+  };
+
+  const handleClearFilters = () => {
+    const emptyFilters = {
+      search: "",
+      type: "",
+      director: "",
+      releaseYear: "",
+    };
+    setFilters(emptyFilters);
+    setPage(1);
+    setHasMore(true);
+    fetchEntries(1, false, emptyFilters);
+  };
 
   const handleOpenAddForm = () => {
     setEditingEntry(null);
@@ -180,6 +234,13 @@ const HomePage: React.FC = () => {
       <h1 className="text-4xl font-extrabold text-center mb-6 text-gray-800">
         Favorite Movies & TV Shows
       </h1>
+
+      <SearchFiltersComponent
+        filters={filters}
+        onFiltersChange={handleFiltersChange}
+        onSearch={handleSearch}
+        onClear={handleClearFilters}
+      />
 
       <Box className="mb-6 flex justify-end">
         <Button

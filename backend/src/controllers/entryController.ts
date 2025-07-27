@@ -9,11 +9,13 @@ import {
   createEntrySchema,
   updateEntrySchema,
   paginationSchema,
+  searchSchema,
 } from "../validationSchemas/entrySchemas";
 
 type CreateEntryInput = z.infer<typeof createEntrySchema>;
 type UpdateEntryInput = z.infer<typeof updateEntrySchema>;
 type PaginationInput = z.infer<typeof paginationSchema>;
+type SearchInput = z.infer<typeof searchSchema>;
 
 export const createEntry = async (
   req: Request<{}, {}, CreateEntryInput>,
@@ -29,14 +31,32 @@ export const createEntry = async (
 };
 
 export const getEntries = async (
-  req: Request<{}, {}, {}, PaginationInput>,
+  req: Request<{}, {}, {}, SearchInput>,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
-    const { entries, total } = await entryService.getEntries(page, limit);
+    
+    // Extract search filters
+    const filters = {
+      search: req.query.search,
+      type: req.query.type,
+      director: req.query.director,
+      releaseYear: req.query.releaseYear ? Number(req.query.releaseYear) : undefined,
+    };
+    
+    // Remove undefined values
+    const cleanFilters = Object.fromEntries(
+      Object.entries(filters).filter(([_, value]) => value !== undefined)
+    );
+    
+    const { entries, total } = await entryService.getEntries(
+      page,
+      limit,
+      Object.keys(cleanFilters).length > 0 ? cleanFilters : undefined
+    );
     res.status(200).json({ entries, total, page, limit });
   } catch (error) {
     next(error);

@@ -76,3 +76,18 @@ export const paginationSchema = z.object({
       return isNaN(num) || num < 1 || num > 100 ? 10 : num; // Limit max items per page
     }),
 });
+
+// Schema for search and filter query parameters
+export const searchSchema = paginationSchema.extend({
+  search: z.string().optional(),
+  type: z.enum(["Movie", "TV_Show"]).optional(),
+  director: z.string().optional(),
+  releaseYear: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return undefined;
+      const num = parseInt(val);
+      return isNaN(num) ? undefined : num;
+    }),
+});
