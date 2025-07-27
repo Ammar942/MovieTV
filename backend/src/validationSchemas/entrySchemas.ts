@@ -47,6 +47,11 @@ export const createEntrySchema = z.object({
     .max(1000, "Notes cannot exceed 1000 characters")
     .optional()
     .or(z.literal("")),
+  poster: z
+    .string()
+    .max(500, "Poster URL cannot exceed 500 characters")
+    .optional()
+    .or(z.literal("")),
 });
 
 // Schema for updating an entry (all fields are optional)
@@ -69,5 +74,20 @@ export const paginationSchema = z.object({
     .transform((val) => {
       const num = parseInt(val);
       return isNaN(num) || num < 1 || num > 100 ? 10 : num; // Limit max items per page
+    }),
+});
+
+// Schema for search and filter query parameters
+export const searchSchema = paginationSchema.extend({
+  search: z.string().optional(),
+  type: z.enum(["Movie", "TV_Show"]).optional(),
+  director: z.string().optional(),
+  releaseYear: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return undefined;
+      const num = parseInt(val);
+      return isNaN(num) ? undefined : num;
     }),
 });

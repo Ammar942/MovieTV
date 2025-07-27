@@ -13,6 +13,7 @@ export interface Entry {
   releaseYear: number;
   endTime?: string;
   notes?: string;
+  poster?: string;
   createdAt: string; // ISO string format
   updatedAt: string; // ISO string format
 }
@@ -29,6 +30,7 @@ export interface EntryFormData {
   releaseYear: number | ""; // Allow empty for initial form state
   endTime: string;
   notes: string;
+  poster: string;
 }
 
 export interface ApiResponse<T> {

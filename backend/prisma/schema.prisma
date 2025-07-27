@@ -18,6 +18,7 @@ model Entry {
   releaseYear Int
   endTime     String?  @db.VarChar(100)
   notes       String?  @db.Text
+  poster      String?  @db.VarChar(500)
   createdAt   DateTime @default(now()) @db.Timestamp(0)
   updatedAt   DateTime @updatedAt @db.Timestamp(0)
 }
