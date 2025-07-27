@@ -13,6 +13,7 @@ import {
   updateEntry,
   deleteEntry,
 } from "../services/api";
+import Header from "../components/Header";
 
 const ITEMS_PER_PAGE = 10; // Consistent with backend default
 
@@ -175,6 +176,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 bg-white shadow-xl rounded-lg">
+      <Header />
       <h1 className="text-4xl font-extrabold text-center mb-6 text-gray-800">
         Favorite Movies & TV Shows
       </h1>
