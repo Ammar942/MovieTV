@@ -51,6 +51,7 @@ const EntryTable: React.FC<EntryTableProps> = ({
       >
         <TableHead className="bg-gradient-to-r from-blue-500 to-indigo-600">
           <TableRow>
+            <TableCell className="text-white font-semibold">Poster</TableCell>
             <TableCell className="text-white font-semibold">Title</TableCell>
             <TableCell className="text-white font-semibold">Type</TableCell>
             <TableCell className="text-white font-semibold">Director</TableCell>
@@ -69,7 +70,7 @@ const EntryTable: React.FC<EntryTableProps> = ({
         <TableBody>
           {entries.length === 0 && !isLoading ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-8">
+              <TableCell colSpan={10} className="text-center py-8">
                 <Typography variant="h6" color="textSecondary">
                   No entries found. Start by adding one!
                 </Typography>
@@ -84,6 +85,26 @@ const EntryTable: React.FC<EntryTableProps> = ({
                   "&:hover": { backgroundColor: "#f5f5f5" },
                 }}
               >
+                <TableCell className="w-20">
+                  {entry.poster ? (
+                    <img
+                      src={entry.poster}
+                      alt={`${entry.title} poster`}
+                      className="w-16 h-20 object-cover rounded shadow-sm"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.nextElementSibling!.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  <div
+                    className="w-16 h-20 bg-gray-200 rounded shadow-sm flex items-center justify-center text-gray-500 text-xs"
+                    style={{ display: entry.poster ? 'none' : 'flex' }}
+                  >
+                    No Image
+                  </div>
+                </TableCell>
                 <TableCell
                   component="th"
                   scope="row"
@@ -123,14 +144,14 @@ const EntryTable: React.FC<EntryTableProps> = ({
           {/* Intersection Observer target div */}
           {hasMore && !isLoading && (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-4">
+              <TableCell colSpan={10} className="text-center py-4">
                 <div ref={scrollRef}></div>
               </TableCell>
             </TableRow>
           )}
           {isLoading && (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-4">
+              <TableCell colSpan={10} className="text-center py-4">
                 <LoadingSpinner />
               </TableCell>
             </TableRow>

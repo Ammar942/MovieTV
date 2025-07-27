@@ -32,6 +32,7 @@ const defaultFormData: EntryFormData = {
   releaseYear: "",
   endTime: "",
   notes: "",
+  poster: "",
 };
 
 const EntryForm: React.FC<EntryFormProps> = ({
@@ -55,6 +56,7 @@ const EntryForm: React.FC<EntryFormProps> = ({
         releaseYear: initialData.releaseYear,
         endTime: initialData.endTime || "",
         notes: initialData.notes || "",
+        poster: initialData.poster || "",
       });
     } else {
       setFormData(defaultFormData);
@@ -253,6 +255,20 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 variant="outlined"
                 value={formData.notes}
                 onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                margin="dense"
+                name="poster"
+                label="Poster URL"
+                type="url"
+                fullWidth
+                variant="outlined"
+                value={formData.poster}
+                onChange={handleChange}
+                placeholder="https://example.com/poster.jpg"
+                helperText="Enter a URL for the movie/show poster image"
               />
             </Grid>
           </Grid>

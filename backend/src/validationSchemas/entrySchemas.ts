@@ -47,6 +47,11 @@ export const createEntrySchema = z.object({
     .max(1000, "Notes cannot exceed 1000 characters")
     .optional()
     .or(z.literal("")),
+  poster: z
+    .string()
+    .max(500, "Poster URL cannot exceed 500 characters")
+    .optional()
+    .or(z.literal("")),
 });
 
 // Schema for updating an entry (all fields are optional)
