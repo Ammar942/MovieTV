@@ -32,6 +32,8 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
+          {/* Catch-all route for undefined paths */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
     </AuthProvider>

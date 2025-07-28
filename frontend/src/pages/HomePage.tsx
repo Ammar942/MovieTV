@@ -20,8 +20,8 @@ const ITEMS_PER_PAGE = 10; // Consistent with backend default
 
 const HomePage: React.FC = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalEntries, setTotalEntries] = useState(0);
+  const [, setPage] = useState(1);
+  const [, setTotalEntries] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
@@ -172,7 +172,7 @@ const HomePage: React.FC = () => {
         showSnackbar("Entry updated successfully!", "success");
       } else {
         // Create new entry
-        const newEntry = await createEntry(formData);
+        await createEntry(formData);
         // For simplicity, re-fetch the first page to ensure new entry is visible
         // In a real app, you might prepend it or manage state more granularly
         setPage(1); // Reset page to ensure we start from beginning
@@ -219,7 +219,7 @@ const HomePage: React.FC = () => {
   };
 
   const handleCloseSnackbar = (
-    event?: React.SyntheticEvent | Event,
+    _event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickaway") {

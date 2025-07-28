@@ -11,7 +11,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Grid,
+  Box,
 } from "@mui/material";
 import type { Entry, EntryFormData } from "../types";
 
@@ -64,11 +64,7 @@ const EntryForm: React.FC<EntryFormProps> = ({
     setErrors({}); // Clear errors when dialog opens or initialData changes
   }, [initialData, open]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
-    >
-  ) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -128,8 +124,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
       </DialogTitle>
       <DialogContent dividers>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Box>
               <TextField
                 autoFocus
                 margin="dense"
@@ -143,8 +139,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 error={!!errors.title}
                 helperText={errors.title}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <FormControl fullWidth margin="dense" error={!!errors.type}>
                 <InputLabel id="type-label">Type</InputLabel>
                 <Select
@@ -165,8 +161,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                   <p className="text-red-500 text-sm mt-1">{errors.type}</p>
                 )}
               </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <TextField
                 margin="dense"
                 name="director"
@@ -179,8 +175,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 error={!!errors.director}
                 helperText={errors.director}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <TextField
                 margin="dense"
                 name="releaseYear"
@@ -194,8 +190,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 helperText={errors.releaseYear}
                 inputProps={{ min: 1888, max: new Date().getFullYear() + 5 }}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <TextField
                 margin="dense"
                 name="budget"
@@ -206,8 +202,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 value={formData.budget}
                 onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <TextField
                 margin="dense"
                 name="location"
@@ -218,8 +214,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 value={formData.location}
                 onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <TextField
                 margin="dense"
                 name="duration"
@@ -230,8 +226,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 value={formData.duration}
                 onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Box>
+            <Box>
               <TextField
                 margin="dense"
                 name="endTime"
@@ -242,8 +238,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 value={formData.endTime}
                 onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={12}>
+            </Box>
+            <Box className="md:col-span-2">
               <TextField
                 margin="dense"
                 name="notes"
@@ -256,8 +252,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 value={formData.notes}
                 onChange={handleChange}
               />
-            </Grid>
-            <Grid item xs={12}>
+            </Box>
+            <Box className="md:col-span-2">
               <TextField
                 margin="dense"
                 name="poster"
@@ -270,8 +266,8 @@ const EntryForm: React.FC<EntryFormProps> = ({
                 placeholder="https://example.com/poster.jpg"
                 helperText="Enter a URL for the movie/show poster image"
               />
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </form>
       </DialogContent>
       <DialogActions>

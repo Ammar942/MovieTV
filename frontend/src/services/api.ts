@@ -74,7 +74,7 @@ export const updateEntry = async (
 ): Promise<Entry> => {
   try {
     // Ensure releaseYear is converted to number if it's present for update
-    const payload: Partial<EntryFormData & { releaseYear?: number }> = {
+    const payload: any = {
       ...data,
     };
     if (data.releaseYear !== undefined && data.releaseYear !== "") {

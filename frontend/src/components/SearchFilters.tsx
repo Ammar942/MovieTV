@@ -7,10 +7,8 @@ import {
   Select,
   MenuItem,
   Button,
-  Grid,
   Paper,
   Collapse,
-  IconButton,
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -26,7 +24,7 @@ export interface SearchFilters {
   releaseYear: string;
 }
 
-export type { SearchFilters };
+
 
 interface SearchFiltersProps {
   filters: SearchFilters;
@@ -71,9 +69,9 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
 
   return (
     <Paper className="p-4 mb-4 shadow-md">
-      <Grid container spacing={2} alignItems="center">
+      <Box className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
         {/* Main search bar */}
-        <Grid item xs={12} md={6}>
+        <Box>
           <TextField
             fullWidth
             variant="outlined"
@@ -85,10 +83,10 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
               startAdornment: <SearchIcon className="mr-2 text-gray-500" />,
             }}
           />
-        </Grid>
+        </Box>
 
         {/* Action buttons */}
-        <Grid item xs={12} md={6}>
+        <Box>
           <Box className="flex gap-2 justify-end">
             <Button
               variant="contained"
@@ -120,8 +118,8 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
               </Button>
             )}
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* Advanced filters */}
       <Collapse in={showAdvanced}>
@@ -129,8 +127,8 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
           <Typography variant="h6" className="mb-3 text-gray-700">
             Advanced Filters
           </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
+          <Box className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Box>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Type</InputLabel>
                 <Select
@@ -145,8 +143,8 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
                   <MenuItem value="TV_Show">TV Show</MenuItem>
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+            </Box>
+            <Box>
               <TextField
                 fullWidth
                 variant="outlined"
@@ -156,8 +154,8 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
                 onChange={(e) => handleInputChange("director", e.target.value)}
                 onKeyPress={handleKeyPress}
               />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+            </Box>
+            <Box>
               <TextField
                 fullWidth
                 variant="outlined"
@@ -172,8 +170,8 @@ const SearchFiltersComponent: React.FC<SearchFiltersProps> = ({
                   max: new Date().getFullYear() + 5,
                 }}
               />
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         </Box>
       </Collapse>
     </Paper>
